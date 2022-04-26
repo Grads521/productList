@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+    <title>Vite App</title>
+  </head>
+  <body>
+    
+  <div id="app">
+    <ul>
+      <template v-for="(product, index) in products">
+        <li >Название товара: {{product.name}} - Стоимость: {{product.price}} - Количество: {{product.quantity}} - Общая сумма: {{ sum(index) }}</li>          
+        <button v-on:click="deleteProduct(index)">Удалить</button>
+      </template>
+    </ul>
+    <input placeholder="еда" v-model="newProduct" type="text">
+    <input placeholder="цена" v-model="newPrice" type="text">
+    <input placeholder="количество" v-model="newQuantity" type="number">
+    <button v-on:click="addItem">Добавить</button>
+    <p>Общая сумма: {{ totalPrice() }}</p>
+  </div>
+
+  <script>
+  let app = new Vue({
+  el: '#app',
+    data: {
+      products: [
+      ],
+      newProduct: '',
+      newPrice: '',
+      newQuantity: null,
+    },
+    methods: {
+      deleteProduct(index) {
+        this.products.splice(index, 1);
+      },
+      addItem() {
+        let obj = {name: this.newProduct, price: this.newPrice, quantity: this.newQuantity};
+        this.products.push(obj);
+      },
+      sum(i) {
+        return this.products[i].price * this.products[i].quantity
+      },
+      totalPrice() {
+        let total = 0;
+        for (let i = 0; i < this.products.length; i++) {
+          total += this.products[i].price * this.products[i].quantity;
+        }
+        return total;
+      }
+    },
+    computed: {
+    }
+  })
+  </script>
+  </body>
+</html>
